@@ -45,35 +45,33 @@ func cert_data(ref: SecCertificateRef, keys: [String]) -> [String: [String: Stri
 }
 
 
-public struct Certificate {
+public class Certificate {
     let ref: SecCertificateRef
 
     init(ref: SecCertificateRef) {
         self.ref = ref
     }
 
-    public var commonName: String? {
+    lazy public var commonName: String? = {
         var cfName: Unmanaged<CFString>?
         SecCertificateCopyCommonName(self.ref, &cfName)
         var name = cfName?.takeUnretainedValue() as? String
         cfName?.release()
-
         if name == nil {
             let desc = SecCertificateCopyLongDescription(nil, self.ref, nil)
             name = desc.takeUnretainedValue() as? String
             desc.release()
         }
-
         return name
-    }
+    }()
 
     var subjectName: [String: String]? {
-        return cert_data(ref, [SUBJECT_NAME])[SUBJECT_NAME]
+        return cert_data(self.ref, [SUBJECT_NAME])[SUBJECT_NAME]
     }
 
-    public var subjectCountry: String? {
-        return subjectName?["2.5.4.6"]
-    }
+    lazy public var subjectCountry: String? = {
+        return self.subjectName?["2.5.4.6"]
+    }()
 
     public func trustSettings(domain: TrustSettingsDomain) -> TrustSettings? {
         return TrustSettings(ref: ref, domain: domain)
