@@ -41,6 +41,7 @@ func cert_data(ref: SecCertificateRef, keys: [String]) -> [String: [String: Stri
             }
         }
     }
+    contents?.release()
     return data
 }
 

@@ -14,6 +14,7 @@ struct Policy {
     var type: PolicyType {
         let cfData = SecPolicyCopyProperties(ref)
         let data = cfData.takeUnretainedValue() as! [String: AnyObject]
+        cfData.release()
         return PolicyType(rawValue: data[kSecPolicyOid.takeUnretainedValue() as! String] as! String)
     }
 }
