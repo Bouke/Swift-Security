@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public enum TrustSettingsDomain {
     case User, Admin, System
 
@@ -64,7 +65,7 @@ public struct TrustSettings {
 
     private var settings: [(policy: Policy, result: TrustSettingsResult, data: [String: AnyObject])]
 
-    init?(ref: SecCertificateRef, domain: TrustSettingsDomain) {
+    init(ref: SecCertificateRef, domain: TrustSettingsDomain) {
         self.ref = ref
         self.domain = domain
         settings = []
@@ -77,7 +78,7 @@ public struct TrustSettings {
                 }
             }
             break
-        default: return nil
+        default: break
         }
     }
 
@@ -91,8 +92,15 @@ public struct TrustSettings {
                     setting.result = newValue!
                     setting.data[kSecTrustSettingsResult] = newValue!.rawValue
                     settings[idx] = (setting.policy, setting.result, setting.data)
+                    return
                 }
             }
+
+            let policy = SecPolicyCreateWithProperties(key.rawValue, nil)
+            settings.append(policy: Policy(ref: policy.takeUnretainedValue()), result: newValue!, data: [
+                kSecTrustSettingsPolicy: policy.takeUnretainedValue(),
+                kSecTrustSettingsResult: newValue!.rawValue,
+                ])
         }
     }
 

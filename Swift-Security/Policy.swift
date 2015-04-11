@@ -46,6 +46,24 @@ public enum PolicyType {
         default: self = .Other(rawValue)
         }
     }
+
+    var rawValue: String {
+        switch self {
+        case .AppleX509Basic: return kSecPolicyAppleX509Basic.takeUnretainedValue() as! String
+        case .AppleSSL: return kSecPolicyAppleSSL.takeUnretainedValue() as! String
+        case .AppleSMIME: return kSecPolicyAppleSMIME.takeUnretainedValue() as! String
+        case .AppleEAP: return kSecPolicyAppleEAP.takeUnretainedValue() as! String
+        case .AppleIPsec: return kSecPolicyAppleIPsec.takeUnretainedValue() as! String
+        case .AppleiChat: return "1.2.840.113635.100.1.12"
+        case .ApplePKINITClient: return kSecPolicyApplePKINITClient.takeUnretainedValue() as! String
+        case .ApplePKINITServer: return kSecPolicyApplePKINITServer.takeUnretainedValue() as! String
+        case .AppleCodeSigning: return kSecPolicyAppleCodeSigning.takeUnretainedValue() as! String
+        case .MacAppStoreReceipt: return kSecPolicyMacAppStoreReceipt.takeUnretainedValue() as! String
+        case .AppleIDValidation: return kSecPolicyAppleIDValidation.takeUnretainedValue() as! String
+        case .AppleTimeStamping: return kSecPolicyAppleTimeStamping.takeUnretainedValue() as! String
+        case .Other(let other): return other
+        }
+    }
 }
 extension PolicyType: Printable {
     public var description: String {
