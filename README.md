@@ -22,7 +22,7 @@ certificates[0].commonName
 certificates[0].subjectCountry
 ```
 
-Check the trust settings for a certificate. Note that it returns `nil` when no specific trust settings have been entered.
+Check the trust settings for a certificate.
 
 ```swift
 let nl = first(certificates.filter { $0.subjectCountry == "NL" })
@@ -30,7 +30,7 @@ println(nl?.commonName)
 println(nl?.trustSettings(.Admin))
 ```
 
-Change the trust setting for a certificate. This doesn't work in a playground, as a UI dialog for confirming this action will be spawned by OS X. Also note that if the current trust is `nil`, it is not possible to change the trust settings.
+Change the trust setting for a certificate. This doesn't work in a playground, as a UI dialog for confirming this action will be spawned by OS X.
 
 ```swift
 if var trust = nl?.trustSettings(.Admin) {
