@@ -19,6 +19,8 @@ public enum Status {
     case Param
     case ItemNotFound
     case AuthorizationDenied
+    case AuthorizationCanceled
+    case AuthorizationInteractionNotAllowed
     case Other(OSStatus)
 
     init(rawValue: OSStatus) {
@@ -27,6 +29,8 @@ public enum Status {
         case -50: self = .Param
         case -25300: self = .ItemNotFound
         case -60005: self = .AuthorizationDenied
+        case -60006: self = .AuthorizationCanceled
+        case -60007: self = .AuthorizationInteractionNotAllowed
         default: self = .Other(rawValue)
         }
     }
@@ -38,6 +42,8 @@ extension Status: Printable {
         case .Param: return "Status.Param"
         case .ItemNotFound: return "Status.ItemNotFound"
         case .AuthorizationDenied: return "Status.AuthorizationDenied"
+        case .AuthorizationCanceled: return "Status.AuthorizationCanceled"
+        case .AuthorizationInteractionNotAllowed: return "Status.AuthorizationInteractionNotAllowed"
         case .Other(let status): return "Status.Other(\(status))"
         }
     }
